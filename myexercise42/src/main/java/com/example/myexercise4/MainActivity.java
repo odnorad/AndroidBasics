@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checkContactsPermission();
+                checkContactsPermissionAndLoadContacts();
             }
         });
     }
@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
         // First, check whether we already have the permission, if yes, we can
         // directly call our onContactsPermissionGranted() callback
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED) {
-            onContactsPermissionGranted();
+            checkContactsPermissionAndLoadContacts();
         } else {
             // If we don't already have the permission, request it.
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_CONTACTS}, REQUEST_CODE_PERMISSION_READ_CONTACTS);
@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
         if(requestCode == REQUEST_CODE_PERMISSION_READ_CONTACTS) {
             // Then check, whether the permission was granted or not
             if(grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                onContactsPermissionGranted();
+                loadContacts();
             } else {
                 onContactsPermissionDenied();
             }
@@ -137,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
                 .setAction("Retry", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        checkContactsPermission();
+                        checkContactsPermissionAndLoadContacts();
                     }
                 }).show();
     }
